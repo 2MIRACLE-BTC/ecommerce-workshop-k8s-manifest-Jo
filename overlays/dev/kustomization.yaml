@@ -13,6 +13,9 @@ images:
 - name: 241825837502.dkr.ecr.ap-northeast-2.amazonaws.com/frontend
   newName: 241825837502.dkr.ecr.ap-northeast-2.amazonaws.com/frontend
   newTag: ad98c2e0
+- name: 822837196792.dkr.ecr.ap-northeast-2.amazonaws.com/src-ecr
+  newName: 822837196792.dkr.ecr.ap-northeast-2.amazonaws.com/src-ecr
+  newTag: 42e1227e
 resources:
 - ../../base
 patchesStrategicMerge:
