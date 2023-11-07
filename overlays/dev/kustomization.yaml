@@ -15,5 +15,5 @@ images:
   newTag: 42e1227e
 resources:
 - ../../base
-patchesStrategicMerge:
+patches:
 - front-patch.yaml
