@@ -1,5 +1,5 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
 metadata:
   labels:
     tags.datadoghq.com/service: storefront
@@ -78,6 +78,17 @@ spec:
             cpu: 100m
             memory: 100Mi
           limits: {}
+
+  strategy:
+    blueGreen: 
+      #activeService는 이전의 배포된 Blue 서비스
+      activeService: frontend-rollout-bluegreen-active
+      
+      #previewService는 새롭게 배포될 Green 서비스
+      previewService: frontend-rollout-bluegreen-preview
+      
+      #autoPromotioEnabled 옵션은 Blue/Green 배포를 자동으로 진행할 것인지 여부. false 옵션을 사용해 수동으로 지정
+      autoPromotionEnabled: true
 ---
 apiVersion: v1
 kind: Service
@@ -86,7 +97,7 @@ metadata:
     tags.datadoghq.com/service: storefront
     tags.datadoghq.com/env: development
     app: ecommerce
-  name: frontend
+  name: frontend-rollout-bluegreen-active
 spec:
   ports:
     - port: 80
@@ -100,4 +111,28 @@ spec:
     app: ecommerce
   # Change this value to LoadBalancer for better public ingress routing to this
   # pod on most k8s platforms.
-  type: LoadBalancer
+type: LoadBalancer
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    tags.datadoghq.com/service: storefront
+    tags.datadoghq.com/env: development
+    app: ecommerce
+  name: frontend-rollout-bluegreen-preview
+spec:
+  ports:
+    - port: 80
+      protocol: TCP
+      targetPort: 3000
+      nodePort: 30050
+      name: http
+  selector:
+    tags.datadoghq.com/service: storefront
+    tags.datadoghq.com/env: development
+    app: ecommerce
+  # Change this value to LoadBalancer for better public ingress routing to this
+  # pod on most k8s platforms.
+type: LoadBalancer
