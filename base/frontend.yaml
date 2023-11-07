@@ -100,7 +100,7 @@ spec:
     - port: 80
       protocol: TCP
       targetPort: 3000
-      nodePort: 30050
+      #nodePort: 30050
       name: http
   selector:
     tags.datadoghq.com/service: storefront
@@ -124,7 +124,7 @@ spec:
     - port: 80
       protocol: TCP
       targetPort: 3000
-      nodePort: 30050
+      #nodePort: 30050
       name: http
   selector:
     tags.datadoghq.com/service: storefront
