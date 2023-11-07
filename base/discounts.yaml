@@ -15,7 +15,7 @@ spec:
       tags.datadoghq.com/env: "development"
       app: ecommerce
   strategy: {}
-      blueGreen: 
+    blueGreen: 
       #activeService는 이전의 배포된 Blue 서비스
       activeService: discounts-rollout-bluegreen-active
       
