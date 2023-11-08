@@ -8,6 +8,7 @@ metadata:
   name: frontend
   annotations:
     notifications.argoproj.io/subscribe.on-scaling-replica-set.slack: '#argocd-test'
+    notifications.argoproj.io/subscribe.on-sync-succeeded.slack: '#argocd-test'
 spec:
   replicas: 2
   revisionHistoryLimit: 2
