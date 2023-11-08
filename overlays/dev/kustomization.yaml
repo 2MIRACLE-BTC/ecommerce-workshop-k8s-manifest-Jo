@@ -6,7 +6,7 @@ images:
   newTag: f4f19b93
 - name: 822837196792.dkr.ecr.ap-northeast-2.amazonaws.com/discount-ecr
   newName: 822837196792.dkr.ecr.ap-northeast-2.amazonaws.com/discount-ecr
-  newTag: 826a72c4
+  newTag: a5690044
 - name: 822837196792.dkr.ecr.ap-northeast-2.amazonaws.com/frontend-ecr
   newName: 822837196792.dkr.ecr.ap-northeast-2.amazonaws.com/frontend-ecr
   newTag: 27edadee
