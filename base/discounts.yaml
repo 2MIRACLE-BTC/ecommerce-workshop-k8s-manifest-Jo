@@ -1,5 +1,5 @@
-apiVersion: argoproj.io/v1alpha1
-kind: Rollout
+apiVersion: apps/v1
+kind: Deployment
 metadata:
   labels:
     app: ecommerce
@@ -7,66 +7,61 @@ metadata:
     tags.datadoghq.com/env: "development"
   name: discounts
 spec:
-  replicas: 2
-  revisionHistoryLimit: 2
+  replicas: 1
   selector:
     matchLabels:
-      app: ecommerce
       tags.datadoghq.com/service: discounts
       tags.datadoghq.com/env: "development"
-  strategy:
-    blueGreen: 
-      activeService: discounts-rollout-bluegreen-active
-      previewService: discounts-rollout-bluegreen-preview
-      autoPromotionEnabled: true
+      app: ecommerce
+  strategy: {}
   template:
     metadata:
+      creationTimestamp: null
       labels:
-        app: ecommerce
         tags.datadoghq.com/service: discounts
         tags.datadoghq.com/env: "development"
+        app: ecommerce
     spec:
       containers:
-      - name: discounts
-        image: 241825837502.dkr.ecr.ap-northeast-2.amazonaws.com/discounts:22faedff
+      - image: 241825837502.dkr.ecr.ap-northeast-2.amazonaws.com/discounts:22faedff
+        name: discounts
         command: ["ddtrace-run"]
         args: ["flask", "run", "--port=5001", "--host=0.0.0.0"]
         env:
-        - name: FLASK_APP
-          value: "discounts.py"
-        - name: FLASK_DEBUG
-          value: "1"
-        - name: POSTGRES_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: db-password
-              key: pw
-        - name: POSTGRES_USER
-          value: "user"
-        - name: POSTGRES_HOST
-          value: "db"
-        - name: DD_AGENT_HOST
-          valueFrom:
-            fieldRef:
-              fieldPath: status.hostIP
-        - name: DD_LOGS_INJECTION
-          value: "true"
-        - name: DD_ANALYTICS_ENABLED
-          value: "true"
-        - name: DD_PROFILING_ENABLED
-          value: "true"
-        - name: DD_ENV
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.labels['tags.datadoghq.com/env']
-        - name: DD_SERVICE
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.labels['tags.datadoghq.com/service']
+          - name: FLASK_APP
+            value: "discounts.py"
+          - name: FLASK_DEBUG
+            value: "1"
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: pw
+                name: db-password
+          - name: POSTGRES_USER
+            value: "user"
+          - name: POSTGRES_HOST
+            value: "db"
+          - name: DD_AGENT_HOST
+            valueFrom:
+              fieldRef:
+                fieldPath: status.hostIP
+          - name: DD_LOGS_INJECTION
+            value: "true"
+          - name: DD_ANALYTICS_ENABLED
+            value: "true"
+          - name: DD_PROFILING_ENABLED
+            value: "true"
+          - name: DD_ENV
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.labels['tags.datadoghq.com/env']
+          - name: DD_SERVICE
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.labels['tags.datadoghq.com/service']
         ports:
         - containerPort: 5001
         resources: {}
-
 ---
 apiVersion: v1
 kind: Service
@@ -75,7 +70,7 @@ metadata:
     tags.datadoghq.com/service: discounts
     tags.datadoghq.com/env: development
     app: ecommerce
-  name: discounts-rollout-bluegreen-active
+  name: discounts
 spec:
   ports:
   - port: 5001
@@ -87,25 +82,3 @@ spec:
     app: ecommerce
   sessionAffinity: None
   type: ClusterIP
-
----
-apiVersion: v1
-kind: Service
-metadata:
-  labels:
-    tags.datadoghq.com/service: discounts
-    tags.datadoghq.com/env: development
-    app: ecommerce
-  name: discounts-rollout-bluegreen-preview
-spec:
-  ports:
-  - port: 5001
-    protocol: TCP
-    targetPort: 5001
-  selector:
-    tags.datadoghq.com/service: discounts
-    tags.datadoghq.com/env: development
-    app: ecommerce
-  sessionAffinity: None
-  type: ClusterIP
-
