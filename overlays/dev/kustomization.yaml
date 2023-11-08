@@ -3,7 +3,7 @@ kind: Kustomization
 images:
 - name: 822837196792.dkr.ecr.ap-northeast-2.amazonaws.com/ad1-ecr
   newName: 822837196792.dkr.ecr.ap-northeast-2.amazonaws.com/ad1-ecr
-  newTag: fbfa4bbf
+  newTag: f4f19b93
 - name: 822837196792.dkr.ecr.ap-northeast-2.amazonaws.com/discount-ecr
   newName: 822837196792.dkr.ecr.ap-northeast-2.amazonaws.com/discount-ecr
   newTag: 826a72c4
