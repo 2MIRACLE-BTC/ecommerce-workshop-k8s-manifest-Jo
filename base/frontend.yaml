@@ -6,9 +6,8 @@ metadata:
     app: ecommerce
     tags.datadoghq.com/env: "development"
   name: frontend
-  #annotations:
-    #notifications.argoproj.io/subscribe.on-scaling-replica-set.slack: '#argocd-test'
-    #notifications.argoproj.io/subscribe.on-sync-succeeded.slack: '#argocd-test'
+  annotations:
+    notifications.argoproj.io/subscribe.on-sync-succeeded.slack: argocd-noti
 spec:
   replicas: 2
   revisionHistoryLimit: 2
