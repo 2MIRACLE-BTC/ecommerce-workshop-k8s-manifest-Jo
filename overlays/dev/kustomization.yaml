@@ -9,7 +9,7 @@ images:
   newTag: a5690044
 - name: 822837196792.dkr.ecr.ap-northeast-2.amazonaws.com/frontend-ecr
   newName: 822837196792.dkr.ecr.ap-northeast-2.amazonaws.com/frontend-ecr
-  newTag: fd196514
+  newTag: 8c966fd3
 - name: 822837196792.dkr.ecr.ap-northeast-2.amazonaws.com/src-ecr
   newName: 822837196792.dkr.ecr.ap-northeast-2.amazonaws.com/src-ecr
   newTag: 42e1227e
