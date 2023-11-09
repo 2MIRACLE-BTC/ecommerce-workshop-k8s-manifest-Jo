@@ -13,7 +13,12 @@ images:
 - name: 822837196792.dkr.ecr.ap-northeast-2.amazonaws.com/src-ecr
   newName: 822837196792.dkr.ecr.ap-northeast-2.amazonaws.com/src-ecr
   newTag: 42e1227e
+
+namespace: argocd
+
 resources:
 - ../../base
+- argocd-notifications-v1.0.2-install.yaml
 patchesStrategicMerge:
 - front-patch.yaml
+- argocd-notifications-catalog-v1.0.2-install.yaml
